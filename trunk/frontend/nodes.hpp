@@ -6,188 +6,156 @@
 #include <sstream>
 #include <memory>
 #include <cmath>
+#include <vector>
 
-class ExprNode
+class Node
 {
 public:
-    virtual ~ExprNode() = default;
+    virtual ~Node() = default;
 
-    virtual double calculate() = 0;
-
-    virtual std::string toReversePolishNotation() = 0;
 };
 
-enum Operator
+class ExpressionNode : public Node
 {
-    OP_PLUS,
-    OP_MINUS,
-    OP_TIMES,
-    OP_DIVIDE
+};
+class CommandNode : public Node
+{
 };
 
-class BinaryOpNode : public ExprNode
+
+
+class CommandListNode : public Node
 {
-public:
-    BinaryOpNode(ExprNode* left, ExprNode* right, Operator op)
-        : m_left(left)
-        , m_right(right)
-        , m_op(op)
-    {
-    }
-
-    double calculate() override
-    {
-        auto left = m_left->calculate();
-        auto right = m_right->calculate();
-
-        switch (m_op)
-        {
-        case OP_PLUS: return left + right;
-        case OP_MINUS: return left - right;
-        case OP_TIMES: return left * right;
-        case OP_DIVIDE: return left / right;
-        default:
-            throw std::runtime_error("Operator not defined");
-        }
-    }
-
-    std::string toReversePolishNotation() override
-    {
-        auto left = m_left->toReversePolishNotation();
-        auto right = m_right->toReversePolishNotation();
-        std::stringstream out;
-        out << left << right;
-        switch (m_op)
-        {
-            case OP_PLUS:
-                out << "+";
-                break;
-
-            case OP_MINUS:
-                out << "-";
-                break;
-
-            case OP_TIMES:
-                out << "*";
-                break;
-
-            case OP_DIVIDE:
-                out << "/";
-                break;
-
-            default:
-                throw std::runtime_error("Operator not defined");
-        }
-        out << " ";
-        return out.str();
-    }
-
 private:
-    std::unique_ptr<ExprNode> m_left;
-    std::unique_ptr<ExprNode> m_right;
-    Operator m_op;
+    std::vector<std::unique_ptr<CommandNode>> m_commands;
+public:
+    CommandListNode()
+    {}
+    void add(CommandNode* node)
+    {
+        //nur ein Pointer in die Liste hinzufügen
+        m_commands.emplace_back(node);
+    }
+
 };
 
-class ValueNode : public ExprNode
+
+
+class ThreadNode : public Node
 {
-public:
-    ValueNode(double value)
-        : m_value(value)
-    { }
-
-    double calculate() override
-    {
-        return m_value;
-    }
-
-    std::string toReversePolishNotation() override
-    {
-        std::stringstream out;
-        out << m_value << " ";
-        return out.str();
-    }
-
 private:
-    double m_value;
+    std::unique_ptr<CommandListNode> m_block;
+    std::string m_name;
+public:
+    ThreadNode(CommandListNode* block,std::string const& name)
+    :m_block(block),m_name(name)
+    {
+    }
+
+
 };
 
-class SinNode : public ExprNode
+
+class ThreadListNode : public Node
 {
-public:
-    SinNode(ExprNode* arg)
-        : m_arg(arg)
-    { }
-
-    double calculate() override
-    {
-        auto arg = m_arg->calculate();
-        return std::sin(arg);
-    }
-
-    std::string toReversePolishNotation() override
-    {
-        auto arg = m_arg->toReversePolishNotation();
-        std::stringstream out;
-        out << arg << "sin ";
-        return out.str();
-    }
-
 private:
-    std::unique_ptr<ExprNode> m_arg;
+    std::vector<std::unique_ptr<ThreadNode>> m_threads;
+public:
+    ThreadListNode()
+    {}
+    void add(ThreadNode* thread)
+    {
+        //nur ein Pointer in die Liste hinzufügen
+        m_threads.emplace_back(thread);
+    }
 };
 
-class CosNode : public ExprNode
+
+
+
+class FireNode : public Node
 {
-public:
-    CosNode(ExprNode* arg)
-        : m_arg(arg)
-    { }
-
-    double calculate() override
-    {
-        auto arg = m_arg->calculate();
-        return std::cos(arg);
-    }
-
-    std::string toReversePolishNotation() override
-    {
-        auto arg = m_arg->toReversePolishNotation();
-        std::stringstream out;
-        out << arg << "cos ";
-        return out.str();
-    }
-
 private:
-    std::unique_ptr<ExprNode> m_arg;
+    std::unique_ptr<CommandListNode> m_block;
+public:
+    FireNode(CommandListNode* block)
+    :m_block(block)
+    {
+    }
 };
 
-class MaxNode : public ExprNode
+class ProgramNode : public Node
 {
-public:
-    MaxNode(ExprNode* left, ExprNode* right)
-        : m_left(left)
-        , m_right(right)
-    { }
-
-    double calculate() override
-    {
-        auto left = m_left->calculate();
-        auto right = m_right->calculate();
-        return std::max(left, right);
-    }
-
-    std::string toReversePolishNotation() override
-    {
-        auto left = m_left->toReversePolishNotation();
-        auto right = m_right->toReversePolishNotation();
-        std::stringstream out;
-        out << left << right << "max ";
-        return out.str();
-    }
-
 private:
-    std::unique_ptr<ExprNode> m_left;
-    std::unique_ptr<ExprNode> m_right;
+    std::unique_ptr<FireNode> m_fire;
+    std::unique_ptr<ThreadListNode> m_threads;
+public:
+    ProgramNode(FireNode* fire, ThreadListNode* threads)
+    :m_fire(fire), m_threads(threads)
+    {
+    }
+
+};
+
+
+
+
+
+
+class ParamListNode : public Node
+{
+private:
+    std::vector<std::unique_ptr<ExpressionNode>> m_params;
+public:
+    ParamListNode()
+    {}
+    void add(ExpressionNode* expNode)
+    {
+        //nur ein Pointer in die Liste hinzufügen
+        m_params.emplace_back(expNode);
+    }
+
+};
+
+class FuncCallNode : public CommandNode
+{
+private:
+     std::unique_ptr<ParamListNode> m_params;
+     std::string m_id;
+public:
+    FuncCallNode(std::string id, ParamListNode* params)
+    :m_params(params),
+     m_id(id)
+    {
+    }
+};
+
+
+class StringNode : public ExpressionNode
+{
+private:
+    std::string m_value;
+public:
+    StringNode(std::string const& value)
+    : m_value(value)
+    {
+    }
+
+
+};
+
+
+class IntegerNode : public ExpressionNode
+{
+private:
+    int m_value;
+public:
+    IntegerNode(int value)
+    : m_value(value)
+    {
+
+    }
+
 };
 
 #endif // NODES_HPP_INCLUDED
