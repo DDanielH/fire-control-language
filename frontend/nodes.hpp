@@ -12,7 +12,6 @@ class Node
 {
 public:
     virtual ~Node() = default;
-
 };
 
 class ExpressionNode : public Node
@@ -36,7 +35,6 @@ public:
         //nur ein Pointer in die Liste hinzufügen
         m_commands.emplace_back(node);
     }
-
 };
 
 
@@ -51,8 +49,6 @@ public:
     :m_block(block),m_name(name)
     {
     }
-
-
 };
 
 
@@ -94,7 +90,6 @@ public:
     :m_fire(fire), m_threads(threads)
     {
     }
-
 };
 
 
@@ -114,7 +109,6 @@ public:
         //nur ein Pointer in die Liste hinzufügen
         m_params.emplace_back(expNode);
     }
-
 };
 
 class FuncCallNode : public CommandNode
@@ -140,8 +134,6 @@ public:
     : m_value(value)
     {
     }
-
-
 };
 
 
@@ -155,7 +147,6 @@ public:
     {
 
     }
-
 };
 
 #endif // NODES_HPP_INCLUDED
