@@ -18,14 +18,14 @@
 ")"                { return T_RIGHT;}
 "{"                { return T_BEGIN;}
 "}"                { return T_END;}
-\"[^\"]*\"        { return T_STRING;}
+\"[^\"]*\"         { return T_STRING;}
 [0-9]+             { return T_INTEGER;}
-\n                 { return T_NEWLINE;}
+\n                 { yylineno++;}
 ";"                { return T_END_CMD;}
 ","                { return T_SEPARATOR;}
 [a-z][a-zA-Z0-9]*  { return T_IDENTIFIER;}
-
-.                   { std::cerr << "ERROR" << std::endl; return T_ERROR; }
+[\t ]              {}
+.                  { return T_ERROR; }
 
 %%
     /* Procedures */

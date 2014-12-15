@@ -11,7 +11,7 @@ extern std::FILE* yyin;
 
 int main()
 {
-    const char* const TEST_FILE = "./test/calc.fcl";
+    const char* const TEST_FILE = "./test/test.fcl";
     yyin = fopen(TEST_FILE, "r");
     if (yyin == NULL)
     {
@@ -28,7 +28,7 @@ int main()
         return -1;
     }
 
-    std::cout << "Result: " << result->calculate() << std::endl;
-    std::cout << "Polish: " << result->toReversePolishNotation() << std::endl;
+    std::cout << ":) " << std::endl;
+
     return 0;
 }

@@ -1,0 +1,16 @@
+thread "otto"
+{
+	count(100,1000);
+}
+thread "willi"
+{
+	count(100,1000);
+	start("willi","kaiser");
+	join("anton");
+}
+fire
+{
+	start("willi","hugo");
+	start("willi","anton");
+}
+
