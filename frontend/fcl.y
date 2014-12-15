@@ -6,12 +6,12 @@
 extern int yylineno;
 int yylex();
 
-void yyerror(std::unique_ptr<ExprNode>*, const char* s);
+void yyerror(std::unique_ptr<Node>*, const char* s);
 %}
 %define parse.error verbose
 %union {
     double value;
-    ExprNode* node;
+    Node* node;
 }
 
 %token T_FIRE
@@ -31,7 +31,7 @@ void yyerror(std::unique_ptr<ExprNode>*, const char* s);
 
 %type <node> expr
 
-%parse-param {std::unique_ptr<ExprNode>* result}
+%parse-param {std::unique_ptr<Node>* result}
 
 %start program
 
@@ -54,7 +54,7 @@ expression: T_STRING                    {}
             |T_INTEGER                  {}
 %%
 
-void yyerror(std::unique_ptr<ExprNode>* result, const char* s)
+void yyerror(std::unique_ptr<Node>* result, const char* s)
 {
     std::cerr << yylineno << ": " << s << std::endl;
 }

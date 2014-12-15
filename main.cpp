@@ -19,7 +19,7 @@ int main()
         return -1;
     }
 
-    std::unique_ptr<ExprNode> result;
+    std::unique_ptr<Node> result;
     int parseResult = yyparse(&result);
     fclose(yyin);
     if (parseResult != 0)
