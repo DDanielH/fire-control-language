@@ -3,11 +3,12 @@
 #include <cmath>
 #include "nodes.hpp"
 
+extern int yylineno;
 int yylex();
 
 void yyerror(std::unique_ptr<ExprNode>*, const char* s);
 %}
-
+%define parse.error verbose
 %union {
     double value;
     ExprNode* node;
@@ -55,6 +56,6 @@ expression: T_STRING                    {}
 
 void yyerror(std::unique_ptr<ExprNode>* result, const char* s)
 {
-    std::cerr << s << std::endl;
+    std::cerr << yylineno << ": " << s << std::endl;
 }
 
