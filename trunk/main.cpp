@@ -19,9 +19,10 @@ int main()
         return -1;
     }
 
-    std::unique_ptr<Node> result;
+    std::unique_ptr<ProgramNode> result;
     int parseResult = yyparse(&result);
     fclose(yyin);
+    ProgramNode* rootNode = result.get();
     if (parseResult != 0)
     {
         std::cout << "Parse error: " << parseResult << std::endl;

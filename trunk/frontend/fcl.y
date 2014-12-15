@@ -6,12 +6,20 @@
 extern int yylineno;
 int yylex();
 
-void yyerror(std::unique_ptr<Node>*, const char* s);
+void yyerror(std::unique_ptr<ProgramNode>*, const char* s);
 %}
 %define parse.error verbose
 %union {
-    double value;
-    Node* node;
+    const char* string;
+    int integer;
+    ExpressionNode* expression;
+    ParamListNode* params;
+    CommandNode* command;
+    CommandListNode* commandList;
+    ThreadNode* thread;
+    ThreadListNode* threadList;
+    FireNode* fire;
+    ProgramNode* program;
 }
 
 %token T_FIRE
@@ -19,42 +27,76 @@ void yyerror(std::unique_ptr<Node>*, const char* s);
 %token T_RIGHT
 %token T_BEGIN
 %token T_END
-%token T_IDENTIFIER
-%token T_STRING
-%token T_INTEGER
-%token T_NEWLINE
+%token<string> T_IDENTIFIER
+%token<string> T_STRING
+%token<integer> T_INTEGER
 %token T_END_CMD
 %token T_SEPARATOR
 %token T_THREAD
 %token T_ERROR
 
 
-%type <node> expr
+%type <expression> expression
+%type <params> params
+%type <command> command func_call
+%type <commandList> commands block
+%type <thread> thread
+%type <threadList> threads
+%type <fire> fire
+%type <program> program
 
-%parse-param {std::unique_ptr<Node>* result}
+
+
+%parse-param {std::unique_ptr<ProgramNode>* result}
 
 %start program
 
 %%
 
-program:    threads fire                { }
-threads:    threads thread              { }
-            |                           {}
-block:      T_BEGIN commands T_END      {}
-thread:     T_THREAD T_STRING block     {}
-fire:       T_FIRE block                {}
-commands:   commands command            {}
-            |                           {}
-command:    func_call                   {}
-func_call:  T_IDENTIFIER T_LEFT params T_RIGHT T_END_CMD    {}
-params:     expression                  {}
-            |expression T_SEPARATOR params {}
-            |                           {}
-expression: T_STRING                    {}
-            |T_INTEGER                  {}
+program:    threads fire                {
+                                            result->reset( new ProgramNode($2,$1));
+                                        }
+threads:    threads thread              {
+                                            $$ = $1;
+                                            $$->add($2);
+                                        }
+            |                           {
+                                            $$ = new ThreadListNode();
+                                        }
+block:      T_BEGIN commands T_END      {
+                                            $$ = $2;
+                                        }
+thread:     T_THREAD T_STRING block     {
+                                            $$ = new ThreadNode($3,$2);
+                                        }
+fire:       T_FIRE block                {
+                                            $$ = new FireNode($2);
+                                        }
+commands:   commands command            {
+                                            $$ = $1;
+                                            $$->add($2);
+                                        }
+            |                           {$$ = new CommandListNode();}
+command:    func_call                   {
+                                            $$ = $1;
+                                        }
+func_call:  T_IDENTIFIER T_LEFT params T_RIGHT T_END_CMD    {
+                                                            $$ = new FuncCallNode($1,$3);
+                                                            }
+params:     expression                  {
+                                            $$ = new ParamListNode();
+                                            $$->add($1);
+                                         }
+            |expression T_SEPARATOR params {
+                                            $$ = $3;
+                                            $$->add($1);
+                                            }
+            |                           {$$ = new ParamListNode();}
+expression: T_STRING                    {$$ = new StringNode($1);}
+            |T_INTEGER                  {$$ = new IntegerNode($1);}
 %%
 
-void yyerror(std::unique_ptr<Node>* result, const char* s)
+void yyerror(std::unique_ptr<ProgramNode>* result, const char* s)
 {
     std::cerr << yylineno << ": " << s << std::endl;
 }
