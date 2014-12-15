@@ -13,41 +13,44 @@ void yyerror(std::unique_ptr<ExprNode>*, const char* s);
     ExprNode* node;
 }
 
-%token<value> T_DECIMAL
-%token T_PLUS
-%token T_MINUS
-%token T_TIMES
-%token T_DIVIDE
-%token T_OPEN
-%token T_CLOSE
-%token T_COMMA
-%token T_SIN
-%token T_COS
-%token T_MAX
+%token T_FIRE
+%token T_LEFT
+%token T_RIGHT
+%token T_BEGIN
+%token T_END
+%token T_IDENTIFIER
+%token T_STRING
+%token T_INTEGER
+%token T_NEWLINE
+%token T_END_CMD
+%token T_SEPARATOR
+%token T_THREAD
 %token T_ERROR
 
-%left T_PLUS T_MINUS
-%left T_TIMES T_DIVIDE
 
 %type <node> expr
 
 %parse-param {std::unique_ptr<ExprNode>* result}
 
-%start value
+%start program
 
 %%
 
-value: expr                 { result->reset($1); }
-expr: T_DECIMAL             { $$ = new ValueNode($1); }
-    | T_OPEN expr T_CLOSE   { $$ = $2; }
-    | expr T_PLUS expr      { $$ = new BinaryOpNode($1, $3, OP_PLUS); }
-    | expr T_MINUS expr     { $$ = new BinaryOpNode($1, $3, OP_MINUS); }
-    | expr T_TIMES expr     { $$ = new BinaryOpNode($1, $3, OP_TIMES); }
-    | expr T_DIVIDE expr    { $$ = new BinaryOpNode($1, $3, OP_DIVIDE); }
-    | T_SIN T_OPEN expr T_CLOSE { $$ = new SinNode($3); }
-    | T_COS T_OPEN expr T_CLOSE { $$ = new CosNode($3); }
-    | T_MAX T_OPEN expr T_COMMA expr T_CLOSE { $$ = new MaxNode($3, $5); }
-
+program:    threads fire                { }
+threads:    threads thread              { }
+            |                           {}
+block:      T_BEGIN commands T_END      {}
+thread:     T_THREAD T_STRING block     {}
+fire:       T_FIRE block                {}
+commands:   commands command            {}
+            |                           {}
+command:    func_call                   {}
+func_call:  T_IDENTIFIER T_LEFT params T_RIGHT T_END_CMD    {}
+params:     expression                  {}
+            |expression T_SEPARATOR params {}
+            |                           {}
+expression: T_STRING                    {}
+            |T_INTEGER                  {}
 %%
 
 void yyerror(std::unique_ptr<ExprNode>* result, const char* s)
