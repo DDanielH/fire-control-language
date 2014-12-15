@@ -7,28 +7,23 @@
 #include <iostream>
 %}
 
-
-DIGIT [0-9]
-
 %option noyywrap
 
 %%
     /* Rules */
 
-{DIGIT}+(\.{DIGIT}*)?   { yylval.value = std::atof(yytext); return T_DECIMAL; }
-
-"+"                 { return T_PLUS; }
-"-"                 { return T_MINUS; }
-"*"                 { return T_TIMES; }
-"/"                 { return T_DIVIDE; }
-
-"("                 { return T_OPEN; }
-")"                 { return T_CLOSE; }
-","                 { return T_COMMA; }
-
-"sin"               { return T_SIN; }
-"cos"               { return T_COS; }
-"max"               { return T_MAX; }
+"fire"             { return T_FIRE;}
+"thread"           { return T_THREAD;}
+"("                { return T_LEFT;}
+")"                { return T_RIGHT;}
+"{"                { return T_BEGIN;}
+"}"                { return T_END;}
+\"[^\"]*\"        { return T_STRING;}
+[0-9]+             { return T_INTEGER;}
+\n                 { return T_NEWLINE;}
+";"                { return T_END_CMD;}
+","                { return T_SEPARATOR;}
+[a-z][a-zA-Z0-9]*  { return T_IDENTIFIER;}
 
 .                   { std::cerr << "ERROR" << std::endl; return T_ERROR; }
 
