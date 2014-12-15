@@ -29,7 +29,7 @@ int main()
         return -1;
     }
 
-    std::cout << ":) " << std::endl;
+    std::cout << ":-)" << std::endl;
 
     return 0;
 }
