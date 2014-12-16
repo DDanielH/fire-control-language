@@ -33,6 +33,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="backend/context.hpp" />
+		<Unit filename="backend/function.hpp" />
+		<Unit filename="backend/object.hpp" />
+		<Unit filename="backend/vm.hpp" />
 		<Unit filename="frontend/fcl.l">
 			<Option compile="1" />
 		</Unit>
