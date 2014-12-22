@@ -1,9 +1,12 @@
 #ifndef VM_HPP_INCLUDED
 #define VM_HPP_INCLUDED
+
 #include <string>
 #include <thread>
 #include <map>
 #include <memory>
+#include <mutex>
+
 class ThreadListNode;
 class ThreadNode;
 class Function;
@@ -15,6 +18,8 @@ private:
     std::map<std::string,std::shared_ptr<std::thread>> m_runningThreads;
     std::map<std::string,ThreadNode const*> m_threadNodes;
     std::map<std::string,Function const*> m_functionList;
+    std::mutex m_runningThreadMutex;
+    std::mutex m_functionsMutex;
 public:
     void startThread(std::string const& name, std::string const& id);
     void joinThread(std::string const& id);
