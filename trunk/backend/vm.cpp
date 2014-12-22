@@ -29,6 +29,15 @@ void VM::registerThreads(ThreadListNode const* threadList)
         std::cout << threadNode->getName() << " = Name\n";
     }
 }
+void VM::joinThread(std::string const& id)
+{
+    auto runnningThread = m_runningThreads.find(id);
+    if(runnningThread != m_runningThreads.end())
+        throw std::runtime_error("Thread not found: "+ id);
+
+    runnningThread->second.join();
+
+}
 
 void VM::joinAllThreads()
 {
