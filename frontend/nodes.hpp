@@ -19,7 +19,7 @@ class Node
 {
 public:
     virtual ~Node() = default;
-    virtual void execute(Context* context) = 0;
+    virtual void execute(Context* context) const = 0;
 };
 
 class ExpressionNode : public Node
@@ -43,7 +43,7 @@ public:
         //nur ein Pointer in die Liste hinzufügen
         m_commands.emplace_back(node);
     }
-    void execute(Context* context) override{}
+    void execute(Context* context) const override{}
 };
 
 
@@ -62,7 +62,7 @@ public:
     {
         return m_name;
     }
-     void execute(Context* context) override{}
+     void execute(Context* context) const override{}
 };
 
 
@@ -82,7 +82,7 @@ public:
     {
         return m_threads;
     }
-    void execute(Context* context) override{}
+    void execute(Context* context) const override{}
 
 };
 
@@ -98,7 +98,7 @@ public:
     :m_block(block)
     {
     }
-     void execute(Context* context) override{}
+     void execute(Context* context) const override{}
 };
 
 class ProgramNode : public Node
@@ -119,7 +119,7 @@ public:
     {
         return m_threads;
     }
-    void execute(Context* context) override{}
+    void execute(Context* context) const override{}
 };
 
 
@@ -139,7 +139,7 @@ public:
         //nur ein Pointer in die Liste hinzufügen
         m_params.emplace_back(expNode);
     }
-     void execute(Context* context) override{}
+     void execute(Context* context) const override{}
 };
 
 class FuncCallNode : public CommandNode
@@ -153,7 +153,7 @@ public:
      m_id(id, length)
     {
     }
-     void execute(Context* context) override{}
+     void execute(Context* context) const override{}
 };
 
 
@@ -166,7 +166,7 @@ public:
     : m_value(value, length)
     {
     }
-     void execute(Context* context) override{}
+     void execute(Context* context) const override{}
 };
 
 
@@ -180,7 +180,7 @@ public:
     {
 
     }
-     void execute(Context* context) override{}
+     void execute(Context* context) const override{}
 };
 
 #endif // NODES_HPP_INCLUDED

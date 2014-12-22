@@ -16,6 +16,8 @@ public:
     void startThread(std::string const& name, std::string const& id);
     void joinThread(std::string const& id);
     void registerThreads(ThreadListNode const* threadList);
+
+    void joinAllThreads();
 };
 
 

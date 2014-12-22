@@ -32,10 +32,15 @@
 			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add option="-pthread" />
 		</Compiler>
+		<Linker>
+			<Add option="-pthread" />
+		</Linker>
 		<Unit filename="backend/context.hpp" />
 		<Unit filename="backend/function.hpp" />
 		<Unit filename="backend/object.hpp" />
+		<Unit filename="backend/vm.cpp" />
 		<Unit filename="backend/vm.hpp" />
 		<Unit filename="frontend/fcl.l">
 			<Option compile="1" />
