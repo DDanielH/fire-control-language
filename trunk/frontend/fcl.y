@@ -10,7 +10,7 @@ void yyerror(std::unique_ptr<ProgramNode>*, const char* s);
 %}
 %define parse.error verbose
 %union {
-    const char* string;
+    FireString string;
     int integer;
     ExpressionNode* expression;
     ParamListNode* params;
@@ -67,7 +67,7 @@ block:      T_BEGIN commands T_END      {
                                             $$ = $2;
                                         }
 thread:     T_THREAD T_STRING block     {
-                                            $$ = new ThreadNode($3,$2);
+                                            $$ = new ThreadNode($3,$2.string, $2.length);
                                         }
 fire:       T_FIRE block                {
                                             $$ = new FireNode($2);
@@ -81,7 +81,7 @@ command:    func_call                   {
                                             $$ = $1;
                                         }
 func_call:  T_IDENTIFIER T_LEFT params T_RIGHT T_END_CMD    {
-                                                            $$ = new FuncCallNode($1,$3);
+                                                            $$ = new FuncCallNode($1.string, $1.length,$3);
                                                             }
 params:     expression                  {
                                             $$ = new ParamListNode();
@@ -92,7 +92,7 @@ params:     expression                  {
                                             $$->add($1);
                                             }
             |                           {$$ = new ParamListNode();}
-expression: T_STRING                    {$$ = new StringNode($1);}
+expression: T_STRING                    {$$ = new StringNode($1.string, $1.length);}
             |T_INTEGER                  {$$ = new IntegerNode($1);}
 %%
 

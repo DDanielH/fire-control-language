@@ -19,7 +19,8 @@
 "{"                { return T_BEGIN;}
 "}"                { return T_END;}
 \"[^\"]*\"         {
-                      yylval.string = yytext;
+                      yylval.string.string = yytext + 1;
+                      yylval.string.length = yyleng - 2;
                       return T_STRING;
                    }
 [0-9]+             {
@@ -29,7 +30,11 @@
 \n                 { yylineno++;}
 ";"                { return T_END_CMD;}
 ","                { return T_SEPARATOR;}
-[a-z][a-zA-Z0-9]*  {  yylval.string = yytext; return T_IDENTIFIER;}
+[a-z][a-zA-Z0-9]*  {
+                        yylval.string.string = yytext;
+                        yylval.string.length = yyleng;
+                        return T_IDENTIFIER;
+                    }
 [\t ]              {}
 .                  { return T_ERROR; }
 
