@@ -1,10 +1,14 @@
 #ifndef OBJECT_HPP_INCLUDED
 #define OBJECT_HPP_INCLUDED
 
+#include <memory>
+
 class Object
 {
 
 };
+
+typedef std::shared_ptr<Object> ObjectPointer;
 
 class String : public Object
 {
