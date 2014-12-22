@@ -43,7 +43,12 @@ public:
         //nur ein Pointer in die Liste hinzufügen
         m_commands.emplace_back(node);
     }
-    void execute(Context* context) const override{}
+    void execute(Context* context) const override{
+        for (auto& command : m_commands)
+        {
+            command->execute(context);
+        }
+    }
 };
 
 
@@ -58,11 +63,13 @@ public:
     :m_block(block),m_name(name, length)
     {
     }
+     void execute(Context* context) const override{
+        m_block->execute(context);
+     }
     std::string const& getName() const
     {
         return m_name;
     }
-     void execute(Context* context) const override{}
 };
 
 
@@ -78,11 +85,13 @@ public:
         //nur ein Pointer in die Liste hinzufügen
         m_threads.emplace_back(thread);
     }
+     void execute(Context* context) const override{
+        throw std::runtime_error("ThreadListNode: Do not call this Function.");
+     }
     std::vector<std::unique_ptr<ThreadNode>> const& getThreads() const
     {
         return m_threads;
     }
-    void execute(Context* context) const override{}
 
 };
 
@@ -98,7 +107,9 @@ public:
     :m_block(block)
     {
     }
-     void execute(Context* context) const override{}
+     void execute(Context* context) const override{
+        m_block->execute(context);
+     }
 };
 
 class ProgramNode : public Node
@@ -111,6 +122,9 @@ public:
     :m_fire(fire), m_threads(threads)
     {
     }
+     void execute(Context* context) const override{
+        m_fire->execute(context);
+     }
     std::unique_ptr<FireNode> const& getFire() const
     {
         return m_fire;
@@ -119,7 +133,6 @@ public:
     {
         return m_threads;
     }
-    void execute(Context* context) const override{}
 };
 
 
@@ -139,7 +152,16 @@ public:
         //nur ein Pointer in die Liste hinzufügen
         m_params.emplace_back(expNode);
     }
-     void execute(Context* context) const override{}
+     void execute(Context* context) const override {
+        for (auto& param : m_params)
+        {
+            param->execute(context);
+        }
+     }
+
+     int getLength() {
+        return m_params.size();
+     }
 };
 
 class FuncCallNode : public CommandNode
@@ -153,7 +175,10 @@ public:
      m_id(id, length)
     {
     }
-     void execute(Context* context) const override{}
+     void execute(Context* context) const override{
+        m_params->execute(context);
+        context->call(m_id,m_params->getLength());
+     }
 };
 
 
@@ -166,7 +191,9 @@ public:
     : m_value(value, length)
     {
     }
-     void execute(Context* context) const override{}
+     void execute(Context* context) const override{
+        context->pushString( m_value);
+     }
 };
 
 
@@ -180,7 +207,9 @@ public:
     {
 
     }
-     void execute(Context* context) const override{}
+     void execute(Context* context) const override{
+        context->pushInteger( m_value);
+     }
 };
 
 #endif // NODES_HPP_INCLUDED
