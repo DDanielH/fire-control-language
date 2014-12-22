@@ -4,7 +4,7 @@
 #include <vector>
 #include "object.hpp"
 
-typedef std::vector<Object*> arg_list;
+typedef std::vector<ObjectPointer> arg_list;
 
 class Function
 {

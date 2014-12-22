@@ -4,11 +4,12 @@
 #include <stack>
 #include "object.hpp"
 #include "vm.hpp"
+#include "function.hpp"
 
 class Context
 {
 private:
-    std::stack<Object> m_stack;
+    std::stack<ObjectPointer> m_stack;
     VM& m_vm;
 
 public:
@@ -16,6 +17,7 @@ public:
         :m_vm(vm)
     {
     }
+
 
     void pushInteger(int value);
     void pushString(std::string value);
