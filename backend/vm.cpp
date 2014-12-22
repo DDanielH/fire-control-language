@@ -46,3 +46,8 @@ void VM::joinAllThreads()
         thread.second.join();
     }
 }
+
+Function getFunctionByName(std::string const& name)
+{
+
+}
