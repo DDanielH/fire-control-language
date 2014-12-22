@@ -4,8 +4,6 @@
 
 #include "../frontend/nodes.hpp"
 
-#include <iostream>
-
 typedef std::lock_guard<std::mutex> scoped_lock;
 
 void VM::startThread(std::string const& name, std::string const& id)
@@ -31,7 +29,6 @@ void VM::registerThreads(ThreadListNode const* threadList)
     for(auto& threadNode:threadList->getThreads())
     {
         m_threadNodes[threadNode->getName()] = threadNode.get();
-        std::cout << threadNode->getName() << " = Name\n";
     }
 }
 void VM::joinThread(std::string const& id)
@@ -62,6 +59,8 @@ void VM::joinAllThreads()
     {
         thread.second->join();
     }
+    scoped_lock lock(m_runningThreadMutex);
+    m_runningThreads.clear();
 }
 
 void VM::registerFunction(std::shared_ptr<Function> const& function)

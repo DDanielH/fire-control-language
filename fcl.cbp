@@ -53,6 +53,8 @@
 			<Option weight="40" />
 		</Unit>
 		<Unit filename="frontend/nodes.hpp" />
+		<Unit filename="interpreter.cpp" />
+		<Unit filename="interpreter.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
