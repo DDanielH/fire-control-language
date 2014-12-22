@@ -5,7 +5,8 @@
 
 class Object
 {
-
+public:
+    virtual std::string toString() const = 0;
 };
 
 typedef std::shared_ptr<Object> ObjectPointer;
@@ -22,6 +23,8 @@ public:
     }
 
     std::string getValue() { return m_value; }
+
+    std::string toString() const override { return m_value; }
 };
 
 class Integer : public Object
@@ -36,6 +39,8 @@ public:
     }
 
     int getValue() { return m_value; }
+
+    std::string toString() const override { return std::to_string(m_value); }
 };
 
 #endif // OBJECT_HPP_INCLUDED

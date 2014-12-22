@@ -19,8 +19,8 @@ void Context::call(std::string name, int argCount)
     for (int i = 0; i < argCount; i++)
     {
         // das erste Element liegt unten...
-        argList.insert(argList.begin() ,m_stack.top());
+        argList.push_back(m_stack.top());
         m_stack.pop();
     }
-    func.execute(argList);
+    func.execute(m_vm, argList);
 }

@@ -1,16 +1,14 @@
 thread "otto"
 {
-	count(100,1000);
+	count(250,20);
 }
 thread "willi"
 {
-	count(100,1000);
-	start("willi","kaiser");
-	join("anton");
+	count(500,10);
 }
 fire
 {
 	start("willi","hugo");
-	start("willi","anton");
+	start("otto","anton");
 }
 
