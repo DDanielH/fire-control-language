@@ -1,5 +1,6 @@
 #include "frontend/nodes.hpp"
 #include "frontend/fcl.parser.hh"
+#include "backend/function.hpp"
 
 #include <iostream>
 #include <string>
@@ -32,6 +33,7 @@ int main()
 
     VM vmFire;
     vmFire.registerThreads(result->getThreads().get());
+    vmFire.registerFunction(std::make_shared<CountFunction>());
 
     vmFire.startThread("willi","testtest");
 

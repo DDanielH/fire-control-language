@@ -1,5 +1,6 @@
 #include "vm.hpp"
 #include "context.hpp"
+#include "function.hpp"
 
 #include "../frontend/nodes.hpp"
 
@@ -61,6 +62,11 @@ void VM::joinAllThreads()
     {
         thread.second->join();
     }
+}
+
+void VM::registerFunction(std::shared_ptr<Function> const& function)
+{
+    m_functionList.emplace(function->getName(), function);
 }
 
 Function const& VM::getFunctionByName(std::string const& name)

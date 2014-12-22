@@ -15,9 +15,9 @@ class Function;
 class VM
 {
 private:
-    std::map<std::string,std::shared_ptr<std::thread>> m_runningThreads;
-    std::map<std::string,ThreadNode const*> m_threadNodes;
-    std::map<std::string,Function const*> m_functionList;
+    std::map<std::string, std::shared_ptr<std::thread>> m_runningThreads;
+    std::map<std::string, ThreadNode const*> m_threadNodes;
+    std::map<std::string, std::shared_ptr<Function>> m_functionList;
     std::mutex m_runningThreadMutex;
     std::mutex m_functionsMutex;
 public:
@@ -26,6 +26,7 @@ public:
     void registerThreads(ThreadListNode const* threadList);
     void joinAllThreads();
 
+    void registerFunction(std::shared_ptr<Function> const& function);
     Function const& getFunctionByName(std::string const& name);
 };
 
