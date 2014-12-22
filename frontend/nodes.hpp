@@ -7,11 +7,13 @@
 #include <memory>
 #include <cmath>
 #include <vector>
+#include "../backend/context.hpp"
 
 class Node
 {
 public:
     virtual ~Node() = default;
+    virtual void execute(Context* context) = 0;
 };
 
 class ExpressionNode : public Node
@@ -35,6 +37,7 @@ public:
         //nur ein Pointer in die Liste hinzufügen
         m_commands.emplace_back(node);
     }
+    void execute(Context* context) override{}
 };
 
 
@@ -49,6 +52,7 @@ public:
     :m_block(block),m_name(name)
     {
     }
+     void execute(Context* context) override{}
 };
 
 
@@ -64,6 +68,7 @@ public:
         //nur ein Pointer in die Liste hinzufügen
         m_threads.emplace_back(thread);
     }
+     void execute(Context* context) override{}
 };
 
 
@@ -78,6 +83,7 @@ public:
     :m_block(block)
     {
     }
+     void execute(Context* context) override{}
 };
 
 class ProgramNode : public Node
@@ -90,6 +96,7 @@ public:
     :m_fire(fire), m_threads(threads)
     {
     }
+     void execute(Context* context) override{}
 };
 
 
@@ -109,6 +116,7 @@ public:
         //nur ein Pointer in die Liste hinzufügen
         m_params.emplace_back(expNode);
     }
+     void execute(Context* context) override{}
 };
 
 class FuncCallNode : public CommandNode
@@ -122,6 +130,7 @@ public:
      m_id(id)
     {
     }
+     void execute(Context* context) override{}
 };
 
 
@@ -134,6 +143,7 @@ public:
     : m_value(value)
     {
     }
+     void execute(Context* context) override{}
 };
 
 
@@ -147,6 +157,7 @@ public:
     {
 
     }
+     void execute(Context* context) override{}
 };
 
 #endif // NODES_HPP_INCLUDED
