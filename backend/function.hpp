@@ -26,7 +26,7 @@ public:
     {
     }
 
-    void execute(arg_list const& args) override
+    void execute(arg_list const& args) const override
     {
 
     }

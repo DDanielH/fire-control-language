@@ -9,10 +9,10 @@ class Context
 {
 private:
     std::stack<Object> m_stack;
-    VM m_vm;
+    VM& m_vm;
 
 public:
-    Context(VM const& vm)
+    Context(VM& vm)
         :m_vm(vm)
     {
     }

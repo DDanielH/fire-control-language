@@ -3,6 +3,7 @@
 #include <string>
 #include <thread>
 #include <map>
+#include <memory>
 class ThreadListNode;
 class ThreadNode;
 class Function;
@@ -11,7 +12,7 @@ class Function;
 class VM
 {
 private:
-    std::map<std::string,std::thread> m_runningThreads;
+    std::map<std::string,std::shared_ptr<std::thread>> m_runningThreads;
     std::map<std::string,ThreadNode const*> m_threadNodes;
     std::map<std::string,Function const*> m_functionList;
 public:
@@ -20,7 +21,7 @@ public:
     void registerThreads(ThreadListNode const* threadList);
     void joinAllThreads();
 
-    Function getFunctionByName(std::string const& name);
+    Function const& getFunctionByName(std::string const& name);
 };
 
 
