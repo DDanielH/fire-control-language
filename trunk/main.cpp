@@ -33,7 +33,10 @@ int main()
     VM vmFire;
     vmFire.registerThreads(result->getThreads().get());
 
+    vmFire.startThread("willi","testtest");
 
+
+    vmFire.joinAllThreads();
     std::cout << ":-)" << std::endl;
 
     return 0;
