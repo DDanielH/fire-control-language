@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <cstdio>
+#include "backend/vm.hpp"
 
 using namespace std;
 
@@ -28,6 +29,10 @@ int main()
         std::cout << "Parse error: " << parseResult << std::endl;
         return -1;
     }
+
+    VM vmFire;
+    vmFire.registerThreads(result->getThreads().get());
+
 
     std::cout << ":-)" << std::endl;
 

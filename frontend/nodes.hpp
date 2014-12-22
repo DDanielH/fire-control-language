@@ -9,6 +9,12 @@
 #include <vector>
 #include "../backend/context.hpp"
 
+struct FireString
+{
+    const char* string;
+    int length;
+};
+
 class Node
 {
 public:
@@ -48,9 +54,13 @@ private:
     std::unique_ptr<CommandListNode> m_block;
     std::string m_name;
 public:
-    ThreadNode(CommandListNode* block,std::string const& name)
-    :m_block(block),m_name(name)
+    ThreadNode(CommandListNode* block,const char* name, int length)
+    :m_block(block),m_name(name, length)
     {
+    }
+    std::string const& getName() const
+    {
+        return m_name;
     }
      void execute(Context* context) override{}
 };
@@ -68,7 +78,12 @@ public:
         //nur ein Pointer in die Liste hinzufügen
         m_threads.emplace_back(thread);
     }
-     void execute(Context* context) override{}
+    std::vector<std::unique_ptr<ThreadNode>> const& getThreads() const
+    {
+        return m_threads;
+    }
+    void execute(Context* context) override{}
+
 };
 
 
@@ -96,7 +111,15 @@ public:
     :m_fire(fire), m_threads(threads)
     {
     }
-     void execute(Context* context) override{}
+    std::unique_ptr<FireNode> const& getFire() const
+    {
+        return m_fire;
+    }
+    std::unique_ptr<ThreadListNode> const& getThreads() const
+    {
+        return m_threads;
+    }
+    void execute(Context* context) override{}
 };
 
 
@@ -125,9 +148,9 @@ private:
      std::unique_ptr<ParamListNode> m_params;
      std::string m_id;
 public:
-    FuncCallNode(std::string id, ParamListNode* params)
+    FuncCallNode(const char* id, int length,  ParamListNode* params)
     :m_params(params),
-     m_id(id)
+     m_id(id, length)
     {
     }
      void execute(Context* context) override{}
@@ -139,8 +162,8 @@ class StringNode : public ExpressionNode
 private:
     std::string m_value;
 public:
-    StringNode(std::string const& value)
-    : m_value(value)
+    StringNode(const char* value, int length)
+    : m_value(value, length)
     {
     }
      void execute(Context* context) override{}
