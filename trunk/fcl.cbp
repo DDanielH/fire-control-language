@@ -37,7 +37,9 @@
 		<Linker>
 			<Add option="-pthread" />
 		</Linker>
+		<Unit filename="backend/context.cpp" />
 		<Unit filename="backend/context.hpp" />
+		<Unit filename="backend/function.cpp" />
 		<Unit filename="backend/function.hpp" />
 		<Unit filename="backend/object.hpp" />
 		<Unit filename="backend/vm.cpp" />
