@@ -1,10 +1,14 @@
 #ifndef CONTEXT_HPP_INCLUDED
 #define CONTEXT_HPP_INCLUDED
 #include <string>
-
+#include <stack>
+#include "object.hpp"
 
 class Context
 {
+private:
+    std::stack<Object> m_stack;
+
 public:
     void pushInteger(int value);
     void pushString(std::string value);
