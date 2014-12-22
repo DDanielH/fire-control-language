@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "object.hpp"
+
 typedef std::vector<Object*> arg_list;
 
 class Function
@@ -14,7 +15,21 @@ class Function
         : m_name(name)
         {
         }
-        virtual void execute(arg_list const& args) = 0;
+        virtual void execute(arg_list const& args) const = 0;
+        std::string getName() { return m_name; }
+};
+
+class CountFunction : public Function
+{
+public:
+    CountFunction() : Function("count")
+    {
+    }
+
+    void execute(arg_list const& args) override
+    {
+
+    }
 };
 
 #endif // FUNCTION_HPP_INCLUDED
