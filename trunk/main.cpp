@@ -34,8 +34,14 @@ int main()
     VM vmFire;
     vmFire.registerThreads(result->getThreads().get());
     vmFire.registerFunction(std::make_shared<CountFunction>());
+    vmFire.registerFunction(std::make_shared<StartThread>());
+    vmFire.registerFunction(std::make_shared<JoinThread>());
 
-    vmFire.startThread("willi","testtest");
+    //vmFire.startThread("willi","testtest");
+    //vmFire.startThread("otto","testtest2");
+
+    Context context(vmFire);
+    result->execute(&context);
 
 
     vmFire.joinAllThreads();
