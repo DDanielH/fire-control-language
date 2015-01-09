@@ -85,4 +85,38 @@ public:
     }
 };
 
+class GetType : public Function
+{
+public:
+    GetType() : Function("getType")
+    {
+    }
+
+    void execute(VM& vm, arg_list const& args) const override
+    {
+        if (args.size() != 1)
+            throw std::runtime_error("Argument count not valid");
+
+        if (dynamic_cast<Boolean*>(args[0].get()) != nullptr)
+        {
+            std::cout << "TODO! Boolean" << std::endl;
+            return;
+        }
+
+        if (dynamic_cast<Integer*>(args[0].get()) != nullptr)
+        {
+            std::cout << "TODO! Integer" << std::endl;
+            return;
+        }
+
+        if (dynamic_cast<String*>(args[0].get()) != nullptr)
+        {
+            std::cout << "TODO! String" << std::endl;
+            return;
+        }
+
+        std::cout << "TODO! Object" << std::endl;
+    }
+};
+
 #endif // FUNCTION_HPP_INCLUDED

@@ -51,4 +51,5 @@ void Interpreter::registerFunctions()
     m_vm.registerFunction(std::make_shared<CountFunction>());
     m_vm.registerFunction(std::make_shared<StartThread>());
     m_vm.registerFunction(std::make_shared<JoinThread>());
+    m_vm.registerFunction(std::make_shared<GetType>());
 }
