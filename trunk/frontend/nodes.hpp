@@ -96,6 +96,65 @@ public:
 };
 
 
+class ClientNode : public Node
+{
+private:
+    std::unique_ptr<CommandListNode> m_block;
+    std::string m_name;
+public:
+    ClientNode(CommandListNode* block,const char* name, int length)
+    :m_block(block),m_name(name, length)
+    {
+    }
+     void execute(Context* context) const override{
+        m_block->execute(context);
+     }
+    std::string const& getName() const
+    {
+        return m_name;
+    }
+};
+
+
+class ClientListNode : public Node
+{
+private:
+    std::vector<std::unique_ptr<ClientNode>> m_clients;
+public:
+    ClientListNode()
+    {}
+    void add(ClientNode* client)
+    {
+        //nur ein Pointer in die Liste hinzufügen
+        m_clients.emplace_back(client);
+    }
+     void execute(Context* context) const override{
+        throw std::runtime_error("ClientListNode: Do not call this Function.");
+     }
+    std::vector<std::unique_ptr<ClientNode>> const& getClients() const
+    {
+        return m_clients;
+    }
+
+};
+
+
+class ForeachNode : public CommandNode
+{
+private:
+    std::unique_ptr<CommandListNode> m_block;
+    std::string m_collection;
+    std::string m_var;
+
+public:
+    ForeachNode(CommandListNode* block, const char* collection, int collectionLength, const char* var, int varLength)
+    :m_block(block), m_collection(collection, collectionLength), m_var(var, varLength)
+    {
+    }
+    //TODO
+     void execute(Context* context) const override{
+     }
+};
 
 
 class FireNode : public Node
@@ -117,9 +176,10 @@ class ProgramNode : public Node
 private:
     std::unique_ptr<FireNode> m_fire;
     std::unique_ptr<ThreadListNode> m_threads;
+    std::unique_ptr<ClientListNode> m_clients;
 public:
-    ProgramNode(FireNode* fire, ThreadListNode* threads)
-    :m_fire(fire), m_threads(threads)
+    ProgramNode(FireNode* fire, ThreadListNode* threads, ClientListNode* clients)
+    :m_fire(fire), m_threads(threads), m_clients(clients)
     {
     }
      void execute(Context* context) const override{
@@ -132,6 +192,10 @@ public:
     std::unique_ptr<ThreadListNode> const& getThreads() const
     {
         return m_threads;
+    }
+    std::unique_ptr<ClientListNode> const& getClients() const
+    {
+        return m_clients;
     }
 };
 
@@ -196,6 +260,36 @@ public:
      }
 };
 
+class IdentifierNode : public ExpressionNode
+{
+private:
+    std::string m_value;
+public:
+    IdentifierNode(const char* value, int length)
+    : m_value(value, length)
+    {
+    }
+    //TODO
+     void execute(Context* context) const override{
+
+     }
+};
+
+class VarDeclarationNode : public CommandNode
+{
+private:
+    std::string m_name;
+    std::unique_ptr<ExpressionNode> m_expression;
+public:
+    VarDeclarationNode(const char* name, int length, ExpressionNode* expressionNode)
+    : m_name(name, length), m_expression(expressionNode)
+    {
+    }
+    //TODO
+    void execute(Context* context) const override{
+
+     }
+};
 
 class IntegerNode : public ExpressionNode
 {

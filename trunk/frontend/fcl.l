@@ -14,6 +14,11 @@
 
 "fire"             { return T_FIRE;}
 "thread"           { return T_THREAD;}
+"var"              { return T_VAR;}
+":="               { return T_ASSIGN;}
+"client"           { return T_CLIENT;}
+"for"              { return T_FOR;}
+"in"               { return T_IN;}
 "("                { return T_LEFT;}
 ")"                { return T_RIGHT;}
 "{"                { return T_BEGIN;}

@@ -6,6 +6,10 @@ thread "willi"
 {
 	count(500,10);
 }
+client "einsatzwagen"
+{
+	start("willi","hugo");
+}
 fire
 {
 	getType(1);
