@@ -1,13 +1,14 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
+#include <thread>
+#include <string>
 
-class Client
+struct Client
 {
-    public:
-        Client();
-    protected:
-    private:
+    std::thread thread;
+    std::string clientId;
+    std::string position;
 };
 
 #endif // CLIENT_H

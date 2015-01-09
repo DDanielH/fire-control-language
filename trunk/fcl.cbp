@@ -38,6 +38,7 @@
 		<Linker>
 			<Add option="-pthread" />
 		</Linker>
+		<Unit filename="backend/client-functions.hpp" />
 		<Unit filename="backend/client.cpp" />
 		<Unit filename="backend/client.hpp" />
 		<Unit filename="backend/context.cpp" />

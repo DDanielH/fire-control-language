@@ -18,6 +18,7 @@ private:
     std::map<std::string, std::shared_ptr<std::thread>> m_runningThreads;
     std::map<std::string, ThreadNode const*> m_threadNodes;
     std::map<std::string, std::shared_ptr<Function>> m_functionList;
+    std::map<std::string, std::shared_ptr<Client>> m_clients;
     std::mutex m_runningThreadMutex;
     std::mutex m_functionsMutex;
 public:
@@ -28,6 +29,8 @@ public:
 
     void registerFunction(std::shared_ptr<Function> const& function);
     Function const& getFunctionByName(std::string const& name);
+
+    void startClient(std::string const& clientName);
 };
 
 
