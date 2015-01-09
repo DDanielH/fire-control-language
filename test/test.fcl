@@ -13,12 +13,23 @@ client "einsatzwagen"
 fire
 {
 	writeLine(getType("test"));
-	loadPicture("test/pic.txt");
-	loadPosition("test/pos.txt");
+	var pics = loadPicture("test/pic.txt");
+	writeLine(pics);
+	for (pic in pics)
+	{
+		writeLine(pic);
+	}
+	var positions = loadPosition("test/pos.txt");
+	for (pos in positions)
+	{
+		writeLine(pos);
+	}
 	start("willi","hugo");
 	start("otto","anton");
 
-	var i := 1;
+	var i = 1;
 	writeLine("i: ", i);
+
+	startClient("einsatzwagen");
 }
 

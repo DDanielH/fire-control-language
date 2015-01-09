@@ -83,7 +83,7 @@ void VM::joinAllClients()
     }
     for (auto& client : runningClients)
     {
-        client.second->thread.join();
+        client.second->thread->join();
     }
     scoped_lock lock(m_clientsMutex);
     m_clients.clear();
@@ -126,7 +126,7 @@ void VM::startClient(std::string const& clientName)
         throw std::runtime_error("No client with name <" + clientName + "> defined");
     auto clientNode = clientNodePair->second;
 
-    client->thread = std::thread([this, client, clientNode]{
+    client->thread = std::make_shared<std::thread>([this, client, clientNode]{
         myClient = client;
         Context context(*this);
         clientNode->execute(&context);
