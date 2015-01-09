@@ -4,6 +4,8 @@
 
 #include "../frontend/nodes.hpp"
 
+thread_local client_ptr myClient;
+
 typedef std::lock_guard<std::mutex> scoped_lock;
 
 void VM::startThread(std::string const& name, std::string const& id)
@@ -82,4 +84,17 @@ void VM::startClient(std::string const& clientName)
 {
     auto& client = m_clients[clientName];
     // TODO: In Thread starten mit Knoten aus Grammatik
+    client->thread = std::thread([this, client]{
+        myClient = client;
+        Context context(*this);
+        // TODO: Client-Knoten ausführen
+        //threadNode->second->execute(&context);
+    });
 }
+
+Client& VM::getCurrentClient()
+{
+    return *myClient;
+}
+
+

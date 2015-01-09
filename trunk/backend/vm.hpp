@@ -7,9 +7,13 @@
 #include <memory>
 #include <mutex>
 
+#include "client.hpp"
+
 class ThreadListNode;
 class ThreadNode;
 class Function;
+
+typedef std::shared_ptr<Client> client_ptr;
 
 
 class VM
@@ -31,6 +35,7 @@ public:
     Function const& getFunctionByName(std::string const& name);
 
     void startClient(std::string const& clientName);
+    Client& getCurrentClient();
 };
 
 
