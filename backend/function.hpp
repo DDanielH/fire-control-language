@@ -4,10 +4,12 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include <thread>
 #include <chrono>
 #include "object.hpp"
 #include "vm.hpp"
+#include "list.hpp"
 
 typedef std::vector<ObjectPointer> arg_list;
 
@@ -168,7 +170,7 @@ public:
     {
     }
 
-    void execute(VM& vm, arg_list const& args) const override
+    ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
         if (args.size() != 1)
             throw std::runtime_error("Argument count not valid");
@@ -190,6 +192,8 @@ public:
             myfile.close();
         }
         else std::cout << "Unable to open file";
+
+        return nullptr;
     }
 };
 
@@ -200,7 +204,7 @@ public:
     {
     }
 
-    void execute(VM& vm, arg_list const& args) const override
+    ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
         if (args.size() != 1)
             throw std::runtime_error("Argument count not valid");
@@ -222,6 +226,8 @@ public:
             myfile.close();
         }
         else std::cout << "Unable to open file";
+
+        return nullptr;
     }
 };
 
