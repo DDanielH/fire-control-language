@@ -52,4 +52,6 @@ void Interpreter::registerFunctions()
     m_vm.registerFunction(std::make_shared<StartThread>());
     m_vm.registerFunction(std::make_shared<JoinThread>());
     m_vm.registerFunction(std::make_shared<GetType>());
+    m_vm.registerFunction(std::make_shared<SendPosition>());
+    m_vm.registerFunction(std::make_shared<SendPicture>());
 }

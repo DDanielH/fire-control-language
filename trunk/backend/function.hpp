@@ -125,4 +125,40 @@ public:
     }
 };
 
+class SendPosition : public Function
+{
+public:
+    SendPosition() : Function("sendPosition")
+    {
+    }
+
+    ObjectPointer execute(VM& vm, arg_list const& args) const override
+    {
+        if (args.size() != 0)
+            throw std::runtime_error("Argument count not valid");
+
+        Client& thisClient = vm.getCurrentClient();
+        std::cout << "SendPosition call: clientId:" << thisClient.clientId << "position:" << thisClient.position << std::endl;
+        return nullptr;
+    }
+};
+
+class SendPicture : public Function
+{
+public:
+    SendPicture() : Function("sendPicture")
+    {
+    }
+
+    ObjectPointer execute(VM& vm, arg_list const& args) const override
+    {
+        if (args.size() != 1)
+            throw std::runtime_error("Argument count not valid");
+
+        Client& thisClient = vm.getCurrentClient();
+        std::cout << "SendPicture call: clientId:" << thisClient.clientId << "position:" << thisClient.position << " picturePath:" << args[0].get() << std::endl;
+        return nullptr;
+    }
+};
+
 #endif // FUNCTION_HPP_INCLUDED
