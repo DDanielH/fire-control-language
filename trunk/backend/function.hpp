@@ -175,15 +175,16 @@ public:
         {
             while ( std::getline (myfile,line) )
             {
-                std::cout << line << '\n';
+                //std::cout << line << '\n';
                 auto s = std::make_shared<String>(line);
                 myList.add(s);
             }
             myfile.close();
         }
-        else std::cout << "Unable to open file";
+        else
+            std::cout << "Unable to open file";
 
-        return nullptr;
+        return std::make_shared<List>(myList);
     }
 };
 
@@ -209,15 +210,16 @@ public:
         {
             while ( std::getline (myfile,line) )
             {
-                std::cout << line << '\n';
+                //std::cout << line << '\n';
                 auto s = std::make_shared<String>(line);
                 myList.add(s);
             }
             myfile.close();
         }
-        else std::cout << "Unable to open file";
+        else
+            std::cout << "Unable to open file";
 
-        return nullptr;
+        return std::make_shared<List>(myList);
     }
 };
 
