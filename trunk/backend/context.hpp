@@ -31,6 +31,8 @@ public:
     void pop();
 
     void call(std::string name, int argCount);
+
+    void foreach(std::string const& varName, std::string const& listName);
 };
 
 

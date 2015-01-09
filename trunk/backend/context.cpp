@@ -48,3 +48,10 @@ void Context::call(std::string name, int argCount)
     auto returnValue = func.execute(m_vm, argList);
     m_stack.push(returnValue);
 }
+
+void Context::foreach(std::string const& varName, std::string const& listName)
+{
+    // Liste holen
+    // Über Liste iterieren
+    // Bei jedem Durchlauf varName auf Wert in Liste setzen
+}

@@ -40,6 +40,7 @@ void Interpreter::parseFile(std::string const& filename)
 void Interpreter::bootVM()
 {
     m_vm.registerThreads(m_rootNode->getThreads().get());
+    m_vm.registerClients(m_rootNode->getClients().get());
     registerFunctions();
 }
 
