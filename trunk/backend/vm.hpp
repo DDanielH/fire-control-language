@@ -6,7 +6,6 @@
 #include <map>
 #include <memory>
 #include <mutex>
-
 #include "client.hpp"
 
 class ThreadListNode;
