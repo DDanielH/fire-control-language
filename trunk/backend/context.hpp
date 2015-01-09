@@ -9,6 +9,8 @@
 #include "vm.hpp"
 #include "function.hpp"
 
+class CommandListNode;
+
 class Context
 {
 private:
@@ -32,7 +34,7 @@ public:
 
     void call(std::string name, int argCount);
 
-    void foreach(std::string const& varName, std::string const& listName);
+    void foreach(std::string const& varName, std::string const& listName, CommandListNode* block);
 };
 
 

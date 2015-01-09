@@ -14,6 +14,10 @@ public:
     {
         m_list.emplace_back(item);
     }
+
+    std::vector<ObjectPointer> const& getContent() const
+    { return m_list; }
+
     std::string toString() const override
     {
         return "[FIRE:LIST]";
