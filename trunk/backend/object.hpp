@@ -43,4 +43,18 @@ public:
     std::string toString() const override { return std::to_string(m_value); }
 };
 
+class Boolean : public Object {
+    private:
+        bool m_value;
+
+    public:
+        Boolean(bool const& value)
+        :m_value(value)
+        {
+        }
+
+        bool getValue() { return m_value; }
+
+};
+
 #endif // OBJECT_HPP_INCLUDED

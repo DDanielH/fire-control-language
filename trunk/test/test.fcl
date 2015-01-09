@@ -8,6 +8,8 @@ thread "willi"
 }
 fire
 {
+	getType(1);
+	getType("test");
 	start("willi","hugo");
 	start("otto","anton");
 }
