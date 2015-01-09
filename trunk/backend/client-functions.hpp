@@ -18,7 +18,6 @@ public:
             throw std::runtime_error("Argument count not valid");
 
         String* id = dynamic_cast<String*>(args[0].get());
-
         vm.startClient(id->getValue());
 
         return nullptr;
@@ -39,8 +38,9 @@ public:
 
         String* id = dynamic_cast<String*>(args[0].get());
 
-        Client& client = vm.getCurrentClient();
-        client.clientId = id->getValue();
+        auto clientData = vm.getClientData();
+        clientData.id = id->getValue();
+        vm.setClientData(clientData);
 
         return nullptr;
     }
@@ -60,8 +60,9 @@ public:
 
         String* pos = dynamic_cast<String*>(args[0].get());
 
-        Client& client = vm.getCurrentClient();
-        client.position = pos->getValue();
+        auto clientData = vm.getClientData();
+        clientData.position = pos->getValue();
+        vm.setClientData(clientData);
 
         return nullptr;
     }

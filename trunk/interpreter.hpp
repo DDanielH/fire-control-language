@@ -19,6 +19,11 @@ private:
     void bootVM();
     void executeProgram();
 
+    template <typename FuncT>
+    void registerFunction()
+    {
+        m_vm.registerFunction(std::make_shared<FuncT>());
+    }
     void registerFunctions();
 
 private:

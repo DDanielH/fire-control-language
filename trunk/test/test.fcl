@@ -8,18 +8,18 @@ thread "willi"
 }
 client "einsatzwagen"
 {
-	start("willi","hugo");
+	writeLine("einsatzwagen!");
 }
 fire
 {
 	writeLine(getType("test"));
-	var pics = loadPicture("test/pic.txt");
+	var pics = loadPictures("test/pic.txt");
 	writeLine(pics);
 	for (pic in pics)
 	{
 		writeLine(pic);
 	}
-	var positions = loadPosition("test/pos.txt");
+	var positions = loadPositions("test/pos.txt");
 	for (pos in positions)
 	{
 		writeLine(pos);

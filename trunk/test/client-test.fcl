@@ -1,0 +1,32 @@
+thread "positions"
+{
+	var positions = loadPositions("test/pos.txt");
+	for (pos in positions)
+	{
+		setPosition(pos);
+		sendPosition();
+		wait(1000);
+	}
+}
+
+thread "pictures"
+{
+	var pics = loadPictures("test/pic.txt");
+	for (pic in pics)
+	{
+		sendPicture(pic);
+		wait(1000);
+	}
+}
+
+client "EW-1"
+{
+	setClientId("EW-1-234");
+	start("positions", "pos");
+	start("pictures", "pic");
+}
+fire
+{
+	startClient("EW-1");
+}
+

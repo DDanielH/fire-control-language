@@ -2,14 +2,19 @@
 
 #include <iostream>
 
-int main()
+int main(int argc, char* argv[])
 {
-    const std::string TEST_FILE = "./test/test.fcl";
+    if (argc != 2)
+    {
+        std::cout << "Usage: fcl {filename}" << std::endl;
+        return -1;
+    }
 
     try
     {
+        std::string filename = argv[1];
         Interpreter interpreter;
-        interpreter.fire(TEST_FILE);
+        interpreter.fire(filename);
         return 0;
     }
     catch (std::exception const& ex)

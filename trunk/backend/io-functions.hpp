@@ -16,7 +16,7 @@ public:
     {
         for (auto& arg : args)
         {
-            std::cout << arg->toString();
+            std::cout << toString(arg);
         }
         std::cout << std::endl;
 
