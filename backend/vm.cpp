@@ -77,3 +77,9 @@ Function const& VM::getFunctionByName(std::string const& name)
 
     return *func->second;
 }
+
+void VM::startClient(std::string const& clientName)
+{
+    auto& client = m_clients[clientName];
+    // TODO: In Thread starten mit Knoten aus Grammatik
+}
