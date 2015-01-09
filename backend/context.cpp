@@ -1,5 +1,8 @@
 #include "context.hpp"
 
+#include "list.hpp"
+#include "../frontend/nodes.hpp"
+
 void Context::declareVar(std::string const& name)
 {
     if (m_stack.empty())
@@ -49,9 +52,19 @@ void Context::call(std::string name, int argCount)
     m_stack.push(returnValue);
 }
 
-void Context::foreach(std::string const& varName, std::string const& listName)
+void Context::foreach(std::string const& varName, std::string const& listName, CommandListNode* block)
 {
-    // Liste holen
-    // Über Liste iterieren
-    // Bei jedem Durchlauf varName auf Wert in Liste setzen
+    auto listVar = m_vars.find(listName);
+    if (listVar == m_vars.end())
+        throw std::runtime_error("Variable with name <" + listName + "> was not declared");
+
+    auto listValue = dynamic_cast<List*>(listVar->second.get());
+    if (listValue == nullptr)
+        throw std::runtime_error("Expected list in foreach loop <" + listName + ">");
+
+    for (auto& element : listValue->getContent())
+    {
+        m_vars[varName] = element;
+        block->execute(this);
+    }
 }

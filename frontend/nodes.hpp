@@ -154,7 +154,7 @@ public:
 
     void execute(Context* context) const override
     {
-        context->foreach(m_var, m_collection);
+        context->foreach(m_var, m_collection, m_block.get());
     }
 };
 
