@@ -2,6 +2,9 @@
 
 #include "frontend/fcl.parser.hh"
 
+#include "backend/client-functions.hpp"
+#include "backend/io-functions.hpp"
+
 extern std::FILE* yyin;
 
 Interpreter::Interpreter()
@@ -51,7 +54,14 @@ void Interpreter::registerFunctions()
     m_vm.registerFunction(std::make_shared<CountFunction>());
     m_vm.registerFunction(std::make_shared<StartThread>());
     m_vm.registerFunction(std::make_shared<JoinThread>());
+
     m_vm.registerFunction(std::make_shared<GetType>());
     m_vm.registerFunction(std::make_shared<SendPosition>());
     m_vm.registerFunction(std::make_shared<SendPicture>());
+
+    m_vm.registerFunction(std::make_shared<StartClient>());
+    m_vm.registerFunction(std::make_shared<SetClientId>());
+    m_vm.registerFunction(std::make_shared<SetPosition>());
+
+    m_vm.registerFunction(std::make_shared<WriteLine>());
 }

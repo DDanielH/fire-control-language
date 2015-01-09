@@ -5,7 +5,7 @@
 
 #include "client.hpp"
 
-class StartClient : Function
+class StartClient : public Function
 {
 public:
     StartClient() : Function("startClient")
@@ -25,7 +25,7 @@ public:
     }
 };
 
-class SetClientId : Function
+class SetClientId : public Function
 {
 public:
     SetClientId() : Function("setClientId")
@@ -46,7 +46,7 @@ public:
     }
 };
 
-class SetPosition : Function
+class SetPosition : public Function
 {
 public:
     SetPosition() : Function("setPosition")

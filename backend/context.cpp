@@ -1,8 +1,12 @@
 #include "context.hpp"
 
-void Context::declareVar(std::string const& name, ObjectPointer value)
+void Context::declareVar(std::string const& name)
 {
-    m_vars[name] = value;
+    if (m_stack.empty())
+        throw std::runtime_error("No value in variable declaration");
+
+    m_vars[name] = m_stack.top();
+    m_stack.pop();
 }
 
 void Context::pushInteger(int value)

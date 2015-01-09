@@ -22,7 +22,7 @@ public:
     {
     }
 
-    void declareVar(std::string const& name, ObjectPointer value);
+    void declareVar(std::string const& name);
 
     void pushInteger(int value);
     void pushString(std::string const& value);
