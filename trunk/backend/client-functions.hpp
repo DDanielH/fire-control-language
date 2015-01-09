@@ -12,7 +12,7 @@ public:
     {
     }
 
-    void execute(VM& vm, arg_list const& args) const override
+    ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
         if (args.size() != 1)
             throw std::runtime_error("Argument count not valid");
@@ -20,6 +20,8 @@ public:
         String* id = dynamic_cast<String*>(args[0].get());
 
         vm.startClient(id->getValue());
+
+        return nullptr;
     }
 };
 
@@ -30,7 +32,7 @@ public:
     {
     }
 
-    void execute(VM& vm, arg_list const& args) const override
+    ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
         if (args.size() != 1)
             throw std::runtime_error("Argument count not valid");
@@ -39,6 +41,8 @@ public:
 
         Client& client = vm.getCurrentClient();
         client.clientId = id->getValue();
+
+        return nullptr;
     }
 };
 
@@ -49,7 +53,7 @@ public:
     {
     }
 
-    void execute(VM& vm, arg_list const& args) const override
+    ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
         if (args.size() != 1)
             throw std::runtime_error("Argument count not valid");
@@ -58,6 +62,8 @@ public:
 
         Client& client = vm.getCurrentClient();
         client.position = pos->getValue();
+
+        return nullptr;
     }
 };
 

@@ -228,7 +228,7 @@ public:
      }
 };
 
-class FuncCallNode : public CommandNode
+class FuncCallNode : public ExpressionNode
 {
 private:
      std::unique_ptr<ParamListNode> m_params;
@@ -242,6 +242,22 @@ public:
      void execute(Context* context) const override{
         m_params->execute(context);
         context->call(m_id,m_params->getLength());
+     }
+};
+
+class FuncCallCommandNode : public CommandNode
+{
+private:
+     std::unique_ptr<FuncCallNode> m_funcCall;
+
+public:
+    FuncCallCommandNode(FuncCallNode* funcCall)
+    :m_funcCall(funcCall)
+    {
+    }
+     void execute(Context* context) const override{
+        m_funcCall->execute(context);
+        context->pop();
      }
 };
 

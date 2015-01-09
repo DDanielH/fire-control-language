@@ -22,6 +22,7 @@ void yyerror(std::unique_ptr<ProgramNode>*, const char* s);
     ClientListNode* clientList;
     FireNode* fire;
     ProgramNode* program;
+    FuncCallNode* funcCall;
 }
 
 %token T_FIRE
@@ -45,7 +46,7 @@ void yyerror(std::unique_ptr<ProgramNode>*, const char* s);
 
 %type <expression> expression
 %type <params> params
-%type <command> command func_call var_declaration foreach
+%type <command> command var_declaration foreach
 %type <commandList> commands block
 %type <thread> thread
 %type <threadList> threads
@@ -53,6 +54,7 @@ void yyerror(std::unique_ptr<ProgramNode>*, const char* s);
 %type <program> program
 %type <client> client
 %type <clientList> clients
+%type <funcCall> func_call
 
 
 
@@ -100,10 +102,10 @@ commands:   commands command            {
                                             $$->add($2);
                                         }
             |                           {$$ = new CommandListNode();}
-command:    func_call                   {$$ = $1;}
-            | var_declaration            {$$ = $1;}
-            | foreach                 {$$ = $1;}
-func_call:  T_IDENTIFIER T_LEFT params T_RIGHT T_END_CMD    {
+command:    var_declaration             {$$ = $1;}
+            | foreach                   {$$ = $1;}
+            | func_call T_END_CMD       {$$ = new FuncCallCommandNode($1);}
+func_call:  T_IDENTIFIER T_LEFT params T_RIGHT     {
                                                             $$ = new FuncCallNode($1.string, $1.length,$3);
                                                             }
 
@@ -123,6 +125,7 @@ params:     expression                  {
 expression: T_STRING                    {$$ = new StringNode($1.string, $1.length);}
             |T_INTEGER                  {$$ = new IntegerNode($1);}
             |T_IDENTIFIER               {$$ = new IdentifierNode($1.string, $1.length);}
+            |func_call                  {$$ = $1;}
 %%
 
 void yyerror(std::unique_ptr<ProgramNode>* result, const char* s)

@@ -20,7 +20,7 @@ class Function
         : m_name(name)
         {
         }
-        virtual void execute(VM& vm, arg_list const& args) const = 0;
+        virtual ObjectPointer execute(VM& vm, arg_list const& args) const = 0;
         std::string getName() { return m_name; }
 };
 
@@ -32,7 +32,7 @@ public:
     {
     }
 
-    void execute(VM& vm, arg_list const& args) const override
+    ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
         if (args.size() != 2)
             throw std::runtime_error("Argument count not valid");
@@ -46,6 +46,8 @@ public:
             std::this_thread::sleep_for(duration);
             std::cout << "Iteration: " << i << std::endl;
         }
+
+        return nullptr;
     }
 };
 
@@ -56,7 +58,7 @@ public:
     {
     }
 
-    void execute(VM& vm, arg_list const& args) const override
+    ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
         if (args.size() != 2)
             throw std::runtime_error("Argument count not valid");
@@ -65,6 +67,8 @@ public:
         String* id = dynamic_cast<String*>(args[1].get());
 
         vm.startThread(name->getValue(), id->getValue());
+
+        return nullptr;
     }
 };
 
@@ -75,7 +79,7 @@ public:
     {
     }
 
-    void execute(VM& vm, arg_list const& args) const override
+    ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
         if (args.size() != 1)
             throw std::runtime_error("Argument count not valid");
@@ -83,6 +87,8 @@ public:
         String* id = dynamic_cast<String*>(args[0].get());
 
         vm.joinThread(id->getValue());
+
+        return nullptr;
     }
 };
 
@@ -93,7 +99,7 @@ public:
     {
     }
 
-    void execute(VM& vm, arg_list const& args) const override
+    ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
         if (args.size() != 1)
             throw std::runtime_error("Argument count not valid");
@@ -101,22 +107,21 @@ public:
         if (dynamic_cast<Boolean*>(args[0].get()) != nullptr)
         {
             std::cout << "TODO! Boolean" << std::endl;
-            return;
         }
 
-        if (dynamic_cast<Integer*>(args[0].get()) != nullptr)
+        else if (dynamic_cast<Integer*>(args[0].get()) != nullptr)
         {
             std::cout << "TODO! Integer" << std::endl;
-            return;
         }
 
-        if (dynamic_cast<String*>(args[0].get()) != nullptr)
+        else if (dynamic_cast<String*>(args[0].get()) != nullptr)
         {
             std::cout << "TODO! String" << std::endl;
-            return;
         }
+        else
+            std::cout << "TODO! Object" << std::endl;
 
-        std::cout << "TODO! Object" << std::endl;
+        return nullptr;
     }
 };
 
