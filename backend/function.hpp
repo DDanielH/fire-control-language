@@ -24,6 +24,7 @@ class Function
         std::string getName() { return m_name; }
 };
 
+
 class CountFunction : public Function
 {
 public:
