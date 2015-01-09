@@ -29,7 +29,9 @@ public:
     void startThread(std::string const& name, std::string const& id);
     void joinThread(std::string const& id);
     void registerThreads(ThreadListNode const* threadList);
+    // TODO: registerClients
     void joinAllThreads();
+    void shutdown();
 
     void registerFunction(std::shared_ptr<Function> const& function);
     Function const& getFunctionByName(std::string const& name);
