@@ -28,6 +28,7 @@ private:
     std::mutex m_runningThreadMutex;
     std::mutex m_functionsMutex;
     std::mutex m_clientsMutex;
+    std::mutex m_clientDataMutex;
 public:
     void startThread(std::string const& name, std::string const& id);
     void joinThread(std::string const& id);
@@ -42,7 +43,8 @@ public:
     Function const& getFunctionByName(std::string const& name);
 
     void startClient(std::string const& clientName);
-    Client& getCurrentClient();
+    ClientData getClientData();
+    void setClientData(ClientData const& data);
 };
 
 

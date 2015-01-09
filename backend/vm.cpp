@@ -19,9 +19,11 @@ void VM::startThread(std::string const& name, std::string const& id)
     if(runnningThread != m_runningThreads.end())
         throw std::runtime_error("Thread with id already started: "+ id);
 
-    m_runningThreads[id] = std::make_shared<std::thread>([this, threadNode]{
-       Context context(*this);
-       threadNode->second->execute(&context);
+    auto client = myClient;
+    m_runningThreads[id] = std::make_shared<std::thread>([this, threadNode, client]{
+        myClient = client;
+        Context context(*this);
+        threadNode->second->execute(&context);
     });
 }
 
@@ -83,7 +85,7 @@ void VM::joinAllClients()
     }
     for (auto& client : runningClients)
     {
-        client.second->thread->join();
+        client.second->thread.join();
     }
     scoped_lock lock(m_clientsMutex);
     m_clients.clear();
@@ -91,8 +93,8 @@ void VM::joinAllClients()
 
 void VM::shutdown()
 {
-    joinAllThreads();
     joinAllClients();
+    joinAllThreads();
 }
 
 void VM::registerFunction(std::shared_ptr<Function> const& function)
@@ -118,7 +120,7 @@ void VM::startClient(std::string const& clientName)
         auto clientPair = m_clients.find(clientName);
         if (clientPair != m_clients.end())
             throw std::runtime_error("A client with name <" + clientName + "> is already started");
-        client = clientPair->second;
+        client = m_clients[clientName] = std::make_shared<Client>();
     }
 
     auto clientNodePair = m_clientNodes.find(clientName);
@@ -126,16 +128,27 @@ void VM::startClient(std::string const& clientName)
         throw std::runtime_error("No client with name <" + clientName + "> defined");
     auto clientNode = clientNodePair->second;
 
-    client->thread = std::make_shared<std::thread>([this, client, clientNode]{
+    client->thread = std::thread([this, client, clientNode]{
         myClient = client;
         Context context(*this);
         clientNode->execute(&context);
     });
 }
 
-Client& VM::getCurrentClient()
+ClientData VM::getClientData()
 {
-    return *myClient;
+    scoped_lock lock(m_clientDataMutex);
+    if (myClient == nullptr)
+        throw std::runtime_error("No client data found: function called from wrong context");
+    return myClient->data;
+}
+
+void VM::setClientData(ClientData const& data)
+{
+    scoped_lock lock(m_clientDataMutex);
+    if (myClient == nullptr)
+        throw std::runtime_error("No client data found: function called from wrong context");
+    myClient->data = data;
 }
 
 

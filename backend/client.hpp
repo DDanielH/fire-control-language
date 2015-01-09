@@ -3,13 +3,17 @@
 
 #include <thread>
 #include <string>
-#include <memory>
+
+struct ClientData
+{
+    std::string id;
+    std::string position;
+};
 
 struct Client
 {
-    std::shared_ptr<std::thread> thread;
-    std::string clientId;
-    std::string position;
+    std::thread thread;
+    ClientData data;
 };
 
 #endif // CLIENT_H

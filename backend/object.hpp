@@ -33,7 +33,7 @@ private:
     int m_value;
 
 public:
-    Integer(int const& value)
+    Integer(int value)
         :m_value(value)
     {
     }
@@ -44,17 +44,31 @@ public:
 };
 
 class Boolean : public Object {
-    private:
-        bool m_value;
+private:
+    bool m_value;
 
-    public:
-        Boolean(bool const& value)
+public:
+    Boolean(bool value)
         :m_value(value)
-        {
-        }
+    {
+    }
 
-        bool getValue() { return m_value; }
+    bool getValue() { return m_value; }
 
+    std::string toString() const override
+    {
+        if (m_value)
+            return "true";
+        else
+            return "false";
+    }
 };
+
+inline std::string toString(ObjectPointer const& obj)
+{
+    if (obj == nullptr)
+        return "null";
+    return obj->toString();
+}
 
 #endif // OBJECT_HPP_INCLUDED

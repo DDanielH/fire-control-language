@@ -2,8 +2,11 @@
 
 #include "frontend/fcl.parser.hh"
 
+#include "backend/object-functions.hpp"
 #include "backend/client-functions.hpp"
+#include "backend/thread-functions.hpp"
 #include "backend/io-functions.hpp"
+#include "backend/fire-functions.hpp"
 
 extern std::FILE* yyin;
 
@@ -15,7 +18,15 @@ Interpreter::Interpreter()
 
 Interpreter::~Interpreter()
 {
-    m_vm.joinAllThreads();
+    try
+    {
+        m_vm.shutdown();
+    }
+    catch (std::exception const& ex)
+    {
+        std::cerr << "Error while shutting down VM:\n"
+            << ex.what() << std::endl;
+    }
 }
 
 void Interpreter::fire(std::string const& filename)
@@ -52,20 +63,26 @@ void Interpreter::executeProgram()
 
 void Interpreter::registerFunctions()
 {
-    m_vm.registerFunction(std::make_shared<CountFunction>());
-    m_vm.registerFunction(std::make_shared<StartThread>());
-    m_vm.registerFunction(std::make_shared<JoinThread>());
+    // Object
+    registerFunction<GetType>();
+    registerFunction<IsNull>();
 
-    m_vm.registerFunction(std::make_shared<GetType>());
-    m_vm.registerFunction(std::make_shared<SendPosition>());
-    m_vm.registerFunction(std::make_shared<SendPicture>());
+    // Client
+    registerFunction<StartClient>();
+    registerFunction<SetClientId>();
+    registerFunction<SetPosition>();
 
-    m_vm.registerFunction(std::make_shared<StartClient>());
-    m_vm.registerFunction(std::make_shared<SetClientId>());
-    m_vm.registerFunction(std::make_shared<SetPosition>());
+    // Thread
+    registerFunction<StartThread>();
+    registerFunction<JoinThread>();
+    registerFunction<WaitThread>();
 
-    m_vm.registerFunction(std::make_shared<WriteLine>());
+    // I/O
+    registerFunction<WriteLine>();
 
-    m_vm.registerFunction(std::make_shared<LoadPicture>());
-    m_vm.registerFunction(std::make_shared<LoadPosition>());
+    // Fire
+    registerFunction<LoadPictures>();
+    registerFunction<LoadPositions>();
+    registerFunction<SendPicture>();
+    registerFunction<SendPosition>();
 }
