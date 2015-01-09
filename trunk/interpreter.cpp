@@ -64,4 +64,7 @@ void Interpreter::registerFunctions()
     m_vm.registerFunction(std::make_shared<SetPosition>());
 
     m_vm.registerFunction(std::make_shared<WriteLine>());
+
+    m_vm.registerFunction(std::make_shared<LoadPicture>());
+    m_vm.registerFunction(std::make_shared<LoadPosition>());
 }

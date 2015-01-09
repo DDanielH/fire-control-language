@@ -161,4 +161,68 @@ public:
     }
 };
 
+class LoadPicture : public Function
+{
+public:
+    LoadPicture() : Function("loadPicture")
+    {
+    }
+
+    void execute(VM& vm, arg_list const& args) const override
+    {
+        if (args.size() != 1)
+            throw std::runtime_error("Argument count not valid");
+
+        String* name = dynamic_cast<String*>(args[0].get());
+        std::cout << name->getValue() << std::endl;
+
+        List myList;
+        std::string line;
+        std::ifstream myfile (name->getValue());
+        if (myfile.is_open())
+        {
+            while ( std::getline (myfile,line) )
+            {
+                std::cout << line << '\n';
+                auto s = std::make_shared<String>(line);
+                myList.add(s);
+            }
+            myfile.close();
+        }
+        else std::cout << "Unable to open file";
+    }
+};
+
+class LoadPosition : public Function
+{
+public:
+    LoadPosition() : Function("loadPosition")
+    {
+    }
+
+    void execute(VM& vm, arg_list const& args) const override
+    {
+        if (args.size() != 1)
+            throw std::runtime_error("Argument count not valid");
+
+        String* name = dynamic_cast<String*>(args[0].get());
+        std::cout << name->getValue() << std::endl;
+
+        List myList;
+        std::string line;
+        std::ifstream myfile (name->getValue());
+        if (myfile.is_open())
+        {
+            while ( std::getline (myfile,line) )
+            {
+                std::cout << line << '\n';
+                auto s = std::make_shared<String>(line);
+                myList.add(s);
+            }
+            myfile.close();
+        }
+        else std::cout << "Unable to open file";
+    }
+};
+
 #endif // FUNCTION_HPP_INCLUDED

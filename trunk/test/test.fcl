@@ -14,6 +14,8 @@ fire
 {
 	getType(1);
 	getType("test");
+	loadPicture("test/pic.txt");
+	loadPosition("test/pos.txt");
 	start("willi","hugo");
 	start("otto","anton");
 

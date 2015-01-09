@@ -7,9 +7,9 @@
 class List
 {
 private:
-    virtual std::vector<Object> m_list;
+    std::vector<ObjectPointer> m_list;
 public:
-    virtual void add(Object& item)
+    void add(ObjectPointer item)
     {
         m_list.emplace_back(item);
     }
