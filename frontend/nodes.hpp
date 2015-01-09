@@ -151,8 +151,10 @@ public:
     :m_block(block), m_collection(collection, collectionLength), m_var(var, varLength)
     {
     }
-    //TODO
-    void execute(Context* context) const override{
+
+    void execute(Context* context) const override
+    {
+        context->foreach(m_var, m_collection);
     }
 };
 
