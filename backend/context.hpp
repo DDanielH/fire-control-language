@@ -28,6 +28,8 @@ public:
     void pushString(std::string const& value);
     void pushVar(std::string const& name);
 
+    void pop();
+
     void call(std::string name, int argCount);
 };
 

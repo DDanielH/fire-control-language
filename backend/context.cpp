@@ -26,6 +26,11 @@ void Context::pushVar(std::string const& name)
     m_stack.push(value->second);
 }
 
+void Context::pop()
+{
+    m_stack.pop();
+}
+
 void Context::call(std::string name, int argCount)
 {
     auto& func = m_vm.getFunctionByName(name);
@@ -36,5 +41,6 @@ void Context::call(std::string name, int argCount)
         argList.push_back(m_stack.top());
         m_stack.pop();
     }
-    func.execute(m_vm, argList);
+    auto returnValue = func.execute(m_vm, argList);
+    m_stack.push(returnValue);
 }
