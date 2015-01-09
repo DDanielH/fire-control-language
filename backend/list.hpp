@@ -4,16 +4,20 @@
 #include <vector>
 #include "object.hpp"
 
-class List
+class List: public Object
 {
 private:
     std::vector<ObjectPointer> m_list;
 public:
+
     void add(ObjectPointer item)
     {
         m_list.emplace_back(item);
     }
-
+    std::string toString() const override
+    {
+        return "[FIRE:LIST]";
+    }
 };
 
 
