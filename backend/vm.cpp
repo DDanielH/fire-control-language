@@ -65,6 +65,12 @@ void VM::joinAllThreads()
     m_runningThreads.clear();
 }
 
+void VM::shutdown()
+{
+    joinAllThreads();
+    // TODO: joinClients
+}
+
 void VM::registerFunction(std::shared_ptr<Function> const& function)
 {
     m_functionList.emplace(function->getName(), function);
@@ -82,6 +88,7 @@ Function const& VM::getFunctionByName(std::string const& name)
 
 void VM::startClient(std::string const& clientName)
 {
+    // TODO: Mutex
     auto& client = m_clients[clientName];
     // TODO: In Thread starten mit Knoten aus Grammatik
     client->thread = std::thread([this, client]{
