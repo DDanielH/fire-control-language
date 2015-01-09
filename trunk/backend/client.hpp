@@ -3,10 +3,11 @@
 
 #include <thread>
 #include <string>
+#include <memory>
 
 struct Client
 {
-    std::thread thread;
+    std::shared_ptr<std::thread> thread;
     std::string clientId;
     std::string position;
 };
