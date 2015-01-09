@@ -107,23 +107,13 @@ public:
             throw std::runtime_error("Argument count not valid");
 
         if (dynamic_cast<Boolean*>(args[0].get()) != nullptr)
-        {
-            std::cout << "TODO! Boolean" << std::endl;
-        }
+            return std::make_shared<String>("Boolean");
+        if (dynamic_cast<Integer*>(args[0].get()) != nullptr)
+            return std::make_shared<String>("Integer");
+        if (dynamic_cast<String*>(args[0].get()) != nullptr)
+            return std::make_shared<String>("String");
 
-        else if (dynamic_cast<Integer*>(args[0].get()) != nullptr)
-        {
-            std::cout << "TODO! Integer" << std::endl;
-        }
-
-        else if (dynamic_cast<String*>(args[0].get()) != nullptr)
-        {
-            std::cout << "TODO! String" << std::endl;
-        }
-        else
-            std::cout << "TODO! Object" << std::endl;
-
-        return nullptr;
+        return std::make_shared<String>("Object");
     }
 };
 
