@@ -16,5 +16,8 @@ fire
 	getType("test");
 	start("willi","hugo");
 	start("otto","anton");
+
+	var i := 1;
+	writeLine("i: ", i);
 }
 

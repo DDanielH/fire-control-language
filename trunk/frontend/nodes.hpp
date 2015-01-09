@@ -152,8 +152,8 @@ public:
     {
     }
     //TODO
-     void execute(Context* context) const override{
-     }
+    void execute(Context* context) const override{
+    }
 };
 
 
@@ -279,16 +279,16 @@ public:
 class IdentifierNode : public ExpressionNode
 {
 private:
-    std::string m_value;
+    std::string m_name;
 public:
-    IdentifierNode(const char* value, int length)
-    : m_value(value, length)
+    IdentifierNode(const char* name, int length)
+    : m_name(name, length)
     {
     }
-    //TODO
-     void execute(Context* context) const override{
 
-     }
+    void execute(Context* context) const override{
+        context->pushVar(m_name);
+    }
 };
 
 class VarDeclarationNode : public CommandNode
@@ -301,10 +301,12 @@ public:
     : m_name(name, length), m_expression(expressionNode)
     {
     }
-    //TODO
-    void execute(Context* context) const override{
 
-     }
+    void execute(Context* context) const override
+    {
+        m_expression->execute(context);
+        context->declareVar(m_name);
+    }
 };
 
 class IntegerNode : public ExpressionNode
