@@ -2,8 +2,7 @@
 #define CLIENT_FUNCTIONS_HPP_INCLUDED
 
 #include "function.hpp"
-
-#include "client.hpp"
+#include "vm.hpp"
 
 class StartClient : public Function
 {

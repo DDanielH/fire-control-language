@@ -41,12 +41,10 @@
 			<Add option="-pthread" />
 		</Linker>
 		<Unit filename="backend/client-functions.hpp" />
-		<Unit filename="backend/client.cpp" />
 		<Unit filename="backend/client.hpp" />
 		<Unit filename="backend/context.cpp" />
 		<Unit filename="backend/context.hpp" />
 		<Unit filename="backend/fire-functions.hpp" />
-		<Unit filename="backend/function.cpp" />
 		<Unit filename="backend/function.hpp" />
 		<Unit filename="backend/io-functions.hpp" />
 		<Unit filename="backend/list.hpp" />
@@ -57,6 +55,7 @@
 		<Unit filename="backend/vm.hpp" />
 		<Unit filename="frontend/fcl.l">
 			<Option compile="1" />
+			<Option weight="45" />
 		</Unit>
 		<Unit filename="frontend/fcl.y">
 			<Option compile="1" />

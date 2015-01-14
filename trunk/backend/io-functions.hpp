@@ -1,9 +1,9 @@
 #ifndef IO_FUNCTIONS_HPP_INCLUDED
 #define IO_FUNCTIONS_HPP_INCLUDED
 
-#include "function.hpp"
-
 #include <iostream>
+
+#include "function.hpp"
 
 class WriteLine : public Function
 {
@@ -25,4 +25,4 @@ public:
 };
 
 
-#endif // IO-FUNCTIONS_HPP_INCLUDED
+#endif // IO_FUNCTIONS_HPP_INCLUDED

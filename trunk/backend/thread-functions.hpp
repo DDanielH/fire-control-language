@@ -1,7 +1,11 @@
 #ifndef THREAD_FUNCTIONS_HPP_INCLUDED
 #define THREAD_FUNCTIONS_HPP_INCLUDED
 
+#include <iostream>
+#include <thread>
+
 #include "function.hpp"
+#include "vm.hpp"
 
 class CountFunction : public Function
 {
