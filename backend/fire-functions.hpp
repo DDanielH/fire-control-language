@@ -1,14 +1,19 @@
 #ifndef FIRE_FUNCTIONS_HPP_INCLUDED
 #define FIRE_FUNCTIONS_HPP_INCLUDED
 
+#include <stdexcept>
+#include <fstream>
+#include <memory>
+
 #include "function.hpp"
+#include "vm.hpp"
+#include "list.hpp"
 
 class SendPosition : public Function
 {
 public:
     SendPosition() : Function("sendPosition")
-    {
-    }
+    { }
 
     ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
@@ -17,7 +22,8 @@ public:
 
         auto clientData = vm.getClientData();
         std::cout << "sendPosition(id = " << clientData.id
-            << ", pos = " << clientData.position << ")" << std::endl;
+            << ", pos = " << clientData.position << ")\n";
+
         return nullptr;
     }
 };
@@ -26,8 +32,7 @@ class SendPicture : public Function
 {
 public:
     SendPicture() : Function("sendPicture")
-    {
-    }
+    { }
 
     ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
@@ -41,7 +46,8 @@ public:
         auto clientData = vm.getClientData();
         std::cout << "sendPicture(id = " << clientData.id
             << ", pos = " << clientData.position
-            << ", pic = " << path->getValue() << ")" << std::endl;
+            << ", pic = " << path->getValue() << ")\n";
+
         return nullptr;
     }
 };
@@ -50,8 +56,7 @@ class LoadStringList : public Function
 {
 public:
     LoadStringList(std::string const& name) : Function(name)
-    {
-    }
+    { }
 
     ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
@@ -82,16 +87,14 @@ class LoadPictures : public LoadStringList
 {
 public:
     LoadPictures() : LoadStringList("loadPictures")
-    {
-    }
+    { }
 };
 
 class LoadPositions : public LoadStringList
 {
 public:
     LoadPositions() : LoadStringList("loadPositions")
-    {
-    }
+    { }
 };
 
 #endif // FIRE_FUNCTIONS_HPP_INCLUDED

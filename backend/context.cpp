@@ -7,6 +7,8 @@ void Context::declareVar(std::string const& name)
 {
     if (m_stack.empty())
         throw std::runtime_error("No value in variable declaration");
+    if (m_vars.find(name) != m_vars.end())
+        throw std::runtime_error("Variable <" + name + "> was already declared");
 
     m_vars[name] = m_stack.top();
     m_stack.pop();
@@ -44,7 +46,6 @@ void Context::call(std::string name, int argCount)
     arg_list argList;
     for (int i = 0; i < argCount; i++)
     {
-        // das erste Element liegt unten...
         argList.push_back(m_stack.top());
         m_stack.pop();
     }

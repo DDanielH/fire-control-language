@@ -29,14 +29,16 @@ private:
     std::mutex m_functionsMutex;
     std::mutex m_clientsMutex;
     std::mutex m_clientDataMutex;
+
+private:
+    void joinAllThreads();
+    void joinAllClients();
+
 public:
     void startThread(std::string const& name, std::string const& id);
     void joinThread(std::string const& id);
     void registerThreads(ThreadListNode const* threadList);
     void registerClients(ClientListNode const* clientList);
-    // TODO: registerClients
-    void joinAllThreads();
-    void joinAllClients();
     void shutdown();
 
     void registerFunction(std::shared_ptr<Function> const& function);

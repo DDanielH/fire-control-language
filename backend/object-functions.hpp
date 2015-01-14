@@ -5,8 +5,7 @@ class GetType : public Function
 {
 public:
     GetType() : Function("getType")
-    {
-    }
+    { }
 
     ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
@@ -35,8 +34,7 @@ class IsNull : public Function
 {
 public:
     IsNull() : Function("isNull")
-    {
-    }
+    { }
 
     ObjectPointer execute(VM& vm, arg_list const& args) const override
     {
