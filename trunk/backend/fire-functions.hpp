@@ -8,6 +8,7 @@
 #include "function.hpp"
 #include "vm.hpp"
 #include "list.hpp"
+#include "fire_adapter.h"
 
 class SendPosition : public Function
 {
@@ -21,6 +22,7 @@ public:
             throw std::runtime_error("Argument count not valid");
 
         auto clientData = vm.getClientData();
+
         std::cout << "sendPosition(id = " << clientData.id
             << ", pos = " << clientData.position << ")\n";
 
