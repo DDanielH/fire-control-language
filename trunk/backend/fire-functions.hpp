@@ -10,24 +10,26 @@
 #include "list.hpp"
 #include "fire_adapter.h"
 
+
+
+
+class StartMission : public Function
+{
+public:
+    StartMission() : Function("startMission")
+    { }
+
+    ObjectPointer execute(VM& vm, arg_list const& args) const override;
+};
+
 class SendPosition : public Function
 {
 public:
     SendPosition() : Function("sendPosition")
     { }
 
-    ObjectPointer execute(VM& vm, arg_list const& args) const override
-    {
-        if (args.size() != 0)
-            throw std::runtime_error("Argument count not valid");
+    ObjectPointer execute(VM& vm, arg_list const& args) const override;
 
-        auto clientData = vm.getClientData();
-
-        std::cout << "sendPosition(id = " << clientData.id
-            << ", pos = " << clientData.position << ")\n";
-
-        return nullptr;
-    }
 };
 
 class SendPicture : public Function
@@ -36,22 +38,19 @@ public:
     SendPicture() : Function("sendPicture")
     { }
 
-    ObjectPointer execute(VM& vm, arg_list const& args) const override
-    {
-        if (args.size() != 1)
-            throw std::runtime_error("Argument count not valid");
+    ObjectPointer execute(VM& vm, arg_list const& args) const override;
 
-        String* path = dynamic_cast<String*>(args[0].get());
-        if (path == nullptr)
-            throw std::runtime_error("Expected a <String> but got <" + toString(args[0]) + ">");
+};
 
-        auto clientData = vm.getClientData();
-        std::cout << "sendPicture(id = " << clientData.id
-            << ", pos = " << clientData.position
-            << ", pic = " << path->getValue() << ")\n";
 
-        return nullptr;
-    }
+class SendMessage : public Function
+{
+public:
+    SendMessage() : Function("sendMessage")
+    { }
+
+    ObjectPointer execute(VM& vm, arg_list const& args) const override;
+
 };
 
 class LoadStringList : public Function

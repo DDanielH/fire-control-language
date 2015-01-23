@@ -24,9 +24,11 @@ client "EW-1"
 	setClientId("EW-1-234");
 	start("positions", "pos");
 	start("pictures", "pic");
+	sendMessage("GPTR","GPOS","<gps positiotime='1416489167458'></gps>");
 }
 fire
 {
+	startMission("test/dep.xml");
 	startClient("EW-1");
 }
 
