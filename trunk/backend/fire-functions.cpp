@@ -51,8 +51,9 @@ ObjectPointer SendPosition::execute(VM& vm, arg_list const& args) const
         auto clientData = vm.getClientData();
 
         scoped_lock lock(fireMutex);
-        fireAdapter.sendLocation(clientData.id,clientData.position);
-
+        std::string superseed = fireAdapter.sendLocation(clientData.id,clientData.position,clientData.superseed);
+        clientData.superseed = superseed;
+        vm.setClientData(clientData);
 
         return nullptr;
     }
@@ -74,7 +75,7 @@ ObjectPointer SendMessage::execute(VM& vm, arg_list const& args) const
     auto clientData = vm.getClientData();
 
     scoped_lock lock(fireMutex);
-    fireAdapter.sendMessage(clientData.id,clientData.position,module->getValue(),msgType->getValue(),content->getValue());
+    fireAdapter.sendMessage(clientData.id,clientData.position,module->getValue(),msgType->getValue(),"","5",content->getValue());
 
     return nullptr;
 }
