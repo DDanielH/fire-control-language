@@ -81,8 +81,10 @@ void Interpreter::registerFunctions()
     registerFunction<WriteLine>();
 
     // Fire
+    registerFunction<StartMission>();
     registerFunction<LoadPictures>();
     registerFunction<LoadPositions>();
     registerFunction<SendPicture>();
     registerFunction<SendPosition>();
+    registerFunction<SendMessage>();
 }
