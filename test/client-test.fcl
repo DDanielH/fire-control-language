@@ -10,7 +10,8 @@ thread "positions"
 }
 
 thread "pictures"
-{
+{	
+	wait(1000);
 	var pics = loadPictures("test/pic.txt");
 	for (pic in pics)
 	{
@@ -24,6 +25,7 @@ client "EW-1"
 	setClientId("EW-1-234");
 	start("positions", "pos");
 	start("pictures", "pic");
+	wait(9000);
 	sendMessage("GPTR","GPOS","<gps positiotime='1416489167458'></gps>");
 }
 fire

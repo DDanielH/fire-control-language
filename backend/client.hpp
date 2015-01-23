@@ -8,6 +8,7 @@ struct ClientData
 {
     std::string id;
     std::string position;
+    std::string superseed;
 };
 
 struct Client

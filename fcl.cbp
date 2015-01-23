@@ -44,7 +44,12 @@
 		<Unit filename="backend/client.hpp" />
 		<Unit filename="backend/context.cpp" />
 		<Unit filename="backend/context.hpp" />
+		<Unit filename="backend/fire-functions.cpp" />
 		<Unit filename="backend/fire-functions.hpp" />
+		<Unit filename="backend/fire_adapter.cpp" />
+		<Unit filename="backend/fire_adapter.h" />
+		<Unit filename="backend/fire_exception.cpp" />
+		<Unit filename="backend/fire_exception.h" />
 		<Unit filename="backend/function.hpp" />
 		<Unit filename="backend/io-functions.hpp" />
 		<Unit filename="backend/list.hpp" />
